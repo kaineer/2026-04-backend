@@ -1,7 +1,13 @@
 import Fastify from "fastify";
+import cors from "@fastify/cors";
 import { randomUUID } from "node:crypto";
 
 const app = Fastify({ logger: true });
+
+await app.register(cors, {
+  origin: true,
+  methods: ["GET", "HEAD", "POST", "PUT", "DELETE"],
+});
 
 /** @type {Map<string, { id: string, title: string, done: boolean, created_at: string }>} */
 const tasks = new Map();
@@ -67,7 +73,7 @@ app.delete("/task/:id", async (request, reply) => {
   return { ok: true };
 });
 
-const port = Number(process.env.PORT) || 3000;
+const port = Number(process.env.PORT) || 5000;
 const host = process.env.HOST || "0.0.0.0";
 
 try {
